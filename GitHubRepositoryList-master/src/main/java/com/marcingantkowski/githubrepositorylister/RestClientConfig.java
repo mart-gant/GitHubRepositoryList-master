@@ -6,11 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 
 @Configuration
-class RestClientConfig {
+public final class RestClientConfig {
 
     @Bean
-    RestClient.Builder restClientBuilder(@Value("${github.api.base-url}") String baseUrl) {
-        return RestClient.builder()
-                .baseUrl(baseUrl);
+    public RestClient githubRestClient(RestClient.Builder builder, @Value("${github.api.base-url}") final String baseUrl) {
+        return builder
+                .baseUrl(baseUrl)
+                .build();
     }
 }

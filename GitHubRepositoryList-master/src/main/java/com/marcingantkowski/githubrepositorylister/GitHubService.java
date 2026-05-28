@@ -4,16 +4,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-class GitHubService {
+public final class GitHubService {
 
     private final GitHubClient client;
 
-    GitHubService(GitHubClient client) {
+    public GitHubService(final GitHubClient client) {
         this.client = client;
     }
 
-    List<RepositoryResponse> getRepositories(String username) {
-        return client.getRepositories(username).stream()
+    public List<RepositoryResponse> getRepositories(final String username) {
+        final var repositories = client.getRepositories(username);
+
+        return repositories.stream()
                 .filter(repo -> !repo.fork())
                 .parallel()
                 .map(repo -> new RepositoryResponse(

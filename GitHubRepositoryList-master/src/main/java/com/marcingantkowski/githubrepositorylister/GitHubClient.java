@@ -7,15 +7,15 @@ import org.springframework.web.client.RestClient;
 import java.util.List;
 
 @Component
-class GitHubClient {
+public final class GitHubClient {
 
     private final RestClient restClient;
 
-    GitHubClient(RestClient.Builder builder) {
-        this.restClient = builder.build();
+    public GitHubClient(final RestClient restClient) {
+        this.restClient = restClient;
     }
 
-    List<GithubRepo> getRepositories(String username) {
+    public List<GithubRepo> getRepositories(final String username) {
         try {
             return restClient.get()
                     .uri("/users/{username}/repos", username)
@@ -26,7 +26,7 @@ class GitHubClient {
         }
     }
 
-    List<GithubBranch> getBranches(String owner, String repo) {
+    public List<GithubBranch> getBranches(final String owner, final String repo) {
         return restClient.get()
                 .uri("/repos/{owner}/{repo}/branches", owner, repo)
                 .retrieve()

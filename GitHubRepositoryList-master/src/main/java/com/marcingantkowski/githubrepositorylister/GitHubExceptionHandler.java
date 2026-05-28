@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-class GitHubExceptionHandler {
+public final class GitHubExceptionHandler {
 
     @ExceptionHandler(GitHubUserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ErrorResponse handleUserNotFound(GitHubUserNotFoundException ex) {
+    public ErrorResponse handleUserNotFound(final GitHubUserNotFoundException ex) {
         return new ErrorResponse(404, ex.getMessage());
     }
 }

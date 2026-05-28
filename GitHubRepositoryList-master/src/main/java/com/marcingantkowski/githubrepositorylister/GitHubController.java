@@ -5,16 +5,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class GitHubController {
+public final class GitHubController {
 
     private final GitHubService gitHubService;
 
-    public GitHubController(GitHubService gitHubService) {
+    public GitHubController(final GitHubService gitHubService) {
         this.gitHubService = gitHubService;
     }
 
     @GetMapping("/{username}/repositories")
-    public List<RepositoryResponse> listRepositories(@PathVariable String username) {
+    public List<RepositoryResponse> listRepositories(@PathVariable final String username) {
         return gitHubService.getRepositories(username);
     }
 }

@@ -1,8 +1,8 @@
 package com.marcingantkowski.githubrepositorylister;
 
-public record GithubBranch(
+public sealed record GithubBranch(
         String name,
         Commit commit
-) {
-    public record Commit(String sha) {}
+) permits Commit {
+    public sealed record Commit(String sha) permits GithubBranch {}
 }
