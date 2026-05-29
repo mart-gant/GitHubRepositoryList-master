@@ -1,35 +1,55 @@
-GitHub Repository Lister
-A Spring Boot application that lists GitHub repositories for a given user, excluding forks.
+# GitHub Repository Lister
 
-Description
-This application provides a REST API endpoint to retrieve information about GitHub repositories for a specific user. The response includes:
+A Spring Boot application that lists public GitHub repositories for a given user, excluding forks.
 
-Repository name
-Owner login
-List of branches with their names and last commit SHA
-Technology Stack
-Java 25
-Spring Boot 4.0.1
-Gradle (Kotlin DSL)
-Spring Web MVC
-Spring REST Client
-WireMock (for integration tests)
-Requirements
-Java 25
-Gradle
-Build
+## Description
+
+The application exposes a REST endpoint that returns:
+
+- Repository name
+- Owner login
+- Branch names
+- Last commit SHA for each branch
+
+## Technology Stack
+
+- Java 25
+- Spring Boot 4.0.1
+- Gradle with Kotlin DSL
+- Spring Web MVC
+- Spring RestClient
+- Spring RestTestClient
+- WireMock Spring Boot integration
+
+## Requirements
+
+- Java 25
+
+## Build
+
+```bash
 ./gradlew build
-Run
-./gradlew bootRun
-The application will start on http://localhost:8080
+```
 
-API Endpoint
-List User Repositories
-GET /users/{username}/repositories
+## Run
+
+```bash
+./gradlew bootRun
+```
+
+The application starts on `http://localhost:8080`.
+
+## API
+
+### List User Repositories
+
+`GET /users/{username}/repositories`
 
 Returns all non-fork repositories for the specified GitHub user.
 
-Response Format (Success)
+Successful response:
+
+```json
 [
   {
     "repositoryName": "example-repo",
@@ -42,24 +62,37 @@ Response Format (Success)
     ]
   }
 ]
-Response Format (User Not Found - 404)
+```
+
+User not found response:
+
+```json
 {
   "status": 404,
   "message": "Github user not found"
 }
-Example Usage
+```
+
+## Example
+
+```bash
 curl http://localhost:8080/users/octocat/repositories
-Testing
-Run integration tests:
+```
 
+## Testing
+
+```bash
 ./gradlew test
-The application includes integration tests using WireMock to emulate the GitHub API.
+```
 
-Configuration
-The application uses GitHub API v3 (https://api.github.com) as the backing service.
+Integration tests start the application with `@SpringBootTest(webEnvironment = RANDOM_PORT)`, call it through `RestTestClient`, and emulate GitHub API responses with WireMock.
 
-Notes
-The application filters out forked repositories
-No pagination support
-No authentication required for public repositories
-Designed as a simple proxy with Controller/Service/Client architecture
+## Configuration
+
+The backing API base URL is configured with:
+
+```properties
+github.api.base-url=https://api.github.com
+```
+
+The application does not implement pagination or authentication.
